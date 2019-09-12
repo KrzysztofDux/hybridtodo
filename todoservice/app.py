@@ -15,13 +15,29 @@ db = SQLAlchemy(app)
 @app.route('/todo', methods=['GET', 'POST'])
 def todo():
     if request.method == 'POST':
-        todo_content = request.form['content']
-        new_todo = Todo(content=todo_content)
-        db.session.add(new_todo)
-        db.session.commit()
+        new_todo = create_todo(request.form['content'])
         return jsonify(new_todo)
     elif request.method == 'GET':
-        if "id" in request.args:
-            return jsonify(Todo.query.filter_by(id=request.args.get("id")).first())
-        else:
-            return jsonify(Todo.query.all())
+        return handle_get_todo(request)
+
+
+def create_todo(content):
+    new_todo = Todo(content=content)
+    db.session.add(new_todo)
+    db.session.commit()
+    return new_todo
+
+
+def handle_get_todo(get_request):
+    if "id" in get_request.args:
+        return get_specific_todo(get_request.args.get("id"))
+    else:
+        return get_all_todos()
+
+
+def get_specific_todo(todo_id):
+    return jsonify(Todo.query.filter_by(id=todo_id).first())
+
+
+def get_all_todos():
+    return jsonify(Todo.query.all())
