@@ -6,8 +6,6 @@ services:
     environment:
      - MYSQL_ROOT_PASSWORD=root
      - MYSQL_DATABASE=todo
-#    volumes:
-#      - hybridtodo-mysql:/var/lib/mysql
 
   web_todo:
     environment:
@@ -31,6 +29,3 @@ services:
       - "8000:8000"
     depends_on:
       - db_list
-
-#volumes:
-#    hybridtodo-mysql:

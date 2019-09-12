@@ -1,7 +1,7 @@
 FROM python:3
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /src -p
-WORKDIR /src
+RUN mkdir /listservice -p
+WORKDIR /listservice
 COPY . .
 RUN pip install -r requirements.txt
 EXPOSE 8000
