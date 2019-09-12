@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db_todo:
+    image: mysql
+    environment:
+     - MYSQL_ALLOW_EMPTY_PASSWORD=1
+
+  web_todo:
+    environment:
+    - FLASK_ENV=development
+    build: ./todoservice
+    volumes:
+      - .:/todoservice
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db_todo
+
+  db_list:
+    image: postgres
+
+  web_list:
+    build: ./listservice
+    volumes:
+      - .:/listservice
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db_list
